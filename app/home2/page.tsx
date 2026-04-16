@@ -92,8 +92,8 @@ export default async function Home2() {
             </p>
             <div className="flex flex-wrap gap-2 text-xs">
               {[
-                ["#ranglijst","Ranglijst"],["#uitslagen","Uitslagen"],["#scorers","Top Scorers"],
-                ["#team","Team"],["#staf","Staf"],["#training","Training"],
+                ["#team","Team"],["#uitslagen","Uitslagen"],["#scorers","Top Scorers"],
+                ["#ranglijst","Ranglijst"],["#staf","Staf"],["#training","Training"],
                 ["#speelschema","Schema"],["#sponsoren","Sponsors"],["#instagram","Instagram"],
               ].map(([href, label]) => (
                 <a key={href} href={href} className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded transition-colors">
@@ -118,55 +118,57 @@ export default async function Home2() {
       </section>
       <div className="h-1 bg-[#D31F30]" />
 
-      {/* ═══ RANGLIJST ═══ */}
-      <section id="ranglijst" className="py-12 bg-white">
+      {/* ═══ TEAM ═══ */}
+      <section id="team" className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-8">
-          <SectionHeader title="Ranglijst" sub="Eredivisie Dames · 2025–2026" />
-          {stand.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b-2 border-[#0D2566]">
-                    <th className="text-left py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] w-8">#</th>
-                    <th className="text-left py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566]">Team</th>
-                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">Gespeeld</th>
-                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">W</th>
-                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">V</th>
-                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">Punten</th>
-                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center hidden sm:table-cell">Saldo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stand.map((team) => {
-                    const wins = team.punten - team.gespeeld;
-                    const losses = 2 * team.gespeeld - team.punten;
-                    const isOwn = team.clb_id === 53;
-                    return (
-                      <tr
-                        key={team.ID}
-                        className={`border-b border-gray-100 transition-colors ${isOwn ? "bg-[#0D2566]/5 font-bold" : "hover:bg-gray-50"}`}
-                      >
-                        <td className="py-3 px-3 text-gray-500 text-xs">{team.positie}</td>
-                        <td className="py-3 px-3">
-                          <div className="flex items-center gap-2">
-                            {isOwn && <div className="w-1.5 h-1.5 rounded-full bg-[#D31F30] shrink-0" />}
-                            <span className={isOwn ? "text-[#0D2566]" : "text-gray-800"}>{team.team}</span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-3 text-center text-gray-600">{team.gespeeld}</td>
-                        <td className="py-3 px-3 text-center text-green-700 font-semibold">{wins}</td>
-                        <td className="py-3 px-3 text-center text-red-600 font-semibold">{losses}</td>
-                        <td className={`py-3 px-3 text-center font-black ${isOwn ? "text-[#D31F30]" : "text-[#0D2566]"}`}>{team.punten}</td>
-                        <td className="py-3 px-3 text-center text-gray-500 text-xs hidden sm:table-cell">{team.saldo > 0 ? `+${team.saldo}` : team.saldo}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+          <SectionHeader title="Het team" sub="Dames 1 Selectie" />
+          <div className="grid md:grid-cols-5 gap-8 mb-10 bg-white rounded-lg overflow-hidden shadow-sm">
+            <div className="md:col-span-3 p-8">
+              <p className="text-gray-700 leading-relaxed mb-4 text-sm">
+                Dames 1 van Binnenland Barendrecht is al meer dan vijftig jaar een begrip in het Nederlandse vrouwenbasketbal. Met een trouwe achterban, een toegewijde technische staf en een hechte spelersgroep gaan ze elk seizoen voor de top.
+              </p>
+              <p className="text-gray-700 leading-relaxed text-sm">
+                De ploeg staat bekend om haar snelle, aanvallende speelstijl en de sterke onderlinge band. Elke week geven deze speelsters het maximale voor hun club en hun stad.
+              </p>
+              <div className="flex gap-4 mt-6 flex-wrap">
+                {[
+                  { v: "1974", l: "Opgericht" },
+                  { v: "Eredivisie", l: "Competitie" },
+                  { v: "Barendrecht", l: "Thuisstad" },
+                ].map(x => (
+                  <div key={x.l} className="border-l-2 border-[#D31F30] pl-3">
+                    <div className="font-black text-[#0D2566] text-sm">{x.v}</div>
+                    <div className="text-gray-400 text-[10px] uppercase tracking-wider">{x.l}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ) : (
-            <p className="text-gray-400 text-sm">Ranglijst niet beschikbaar.</p>
-          )}
+            <div className="md:col-span-2 relative min-h-[200px]">
+              <Image src="/spelers/team.JPG" alt="Team" fill className="object-cover" />
+            </div>
+          </div>
+          <h3 className="text-sm font-black text-[#0D2566] uppercase tracking-widest mb-5">Selectie</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {PLAYERS.map((p, i) => (
+              <div key={p.naam} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                <div className="relative h-56">
+                  <Image
+                    src={`/spelers/player${(i % 7) + 1}.png`}
+                    alt={p.naam}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2 left-2 bg-[#0D2566] text-white text-xs font-black w-7 h-7 rounded-full flex items-center justify-center shadow">
+                    {p.nummer}
+                  </div>
+                </div>
+                <div className="p-3 border-t border-gray-100">
+                  <div className="font-bold text-xs text-gray-900 leading-tight">{p.naam}</div>
+                  <div className="text-[#D31F30] text-[10px] font-bold uppercase tracking-wider mt-0.5">{p.positie}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -227,57 +229,55 @@ export default async function Home2() {
         </div>
       </section>
 
-      {/* ═══ TEAM ═══ */}
-      <section id="team" className="py-12 bg-[#F0F2F5]">
+      {/* ═══ RANGLIJST ═══ */}
+      <section id="ranglijst" className="py-12 bg-[#F0F2F5]">
         <div className="max-w-7xl mx-auto px-8">
-          <SectionHeader title="Het team" sub="Dames 1 Selectie" />
-          <div className="grid md:grid-cols-5 gap-8 mb-10 bg-white rounded-lg overflow-hidden shadow-sm">
-            <div className="md:col-span-3 p-8">
-              <p className="text-gray-700 leading-relaxed mb-4 text-sm">
-                Dames 1 van Binnenland Barendrecht is al meer dan vijftig jaar een begrip in het Nederlandse vrouwenbasketbal. Met een trouwe achterban, een toegewijde technische staf en een hechte spelersgroep gaan ze elk seizoen voor de top.
-              </p>
-              <p className="text-gray-700 leading-relaxed text-sm">
-                De ploeg staat bekend om haar snelle, aanvallende speelstijl en de sterke onderlinge band. Elke week geven deze speelsters het maximale voor hun club en hun stad.
-              </p>
-              <div className="flex gap-4 mt-6 flex-wrap">
-                {[
-                  { v: "1974", l: "Opgericht" },
-                  { v: "Eredivisie", l: "Competitie" },
-                  { v: "Barendrecht", l: "Thuisstad" },
-                ].map(x => (
-                  <div key={x.l} className="border-l-2 border-[#D31F30] pl-3">
-                    <div className="font-black text-[#0D2566] text-sm">{x.v}</div>
-                    <div className="text-gray-400 text-[10px] uppercase tracking-wider">{x.l}</div>
-                  </div>
-                ))}
-              </div>
+          <SectionHeader title="Ranglijst" sub="Eredivisie Dames · 2025–2026" />
+          {stand.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b-2 border-[#0D2566]">
+                    <th className="text-left py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] w-8">#</th>
+                    <th className="text-left py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566]">Team</th>
+                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">Gespeeld</th>
+                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">W</th>
+                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">V</th>
+                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center">Punten</th>
+                    <th className="py-2 px-3 text-[10px] font-black uppercase tracking-widest text-[#0D2566] text-center hidden sm:table-cell">Saldo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stand.map((team) => {
+                    const wins = team.punten - team.gespeeld;
+                    const losses = 2 * team.gespeeld - team.punten;
+                    const isOwn = team.clb_id === 53;
+                    return (
+                      <tr
+                        key={team.ID}
+                        className={`border-b border-gray-100 transition-colors ${isOwn ? "bg-[#0D2566]/5 font-bold" : "hover:bg-gray-50"}`}
+                      >
+                        <td className="py-3 px-3 text-gray-500 text-xs">{team.positie}</td>
+                        <td className="py-3 px-3">
+                          <div className="flex items-center gap-2">
+                            {isOwn && <div className="w-1.5 h-1.5 rounded-full bg-[#D31F30] shrink-0" />}
+                            <span className={isOwn ? "text-[#0D2566]" : "text-gray-800"}>{team.team}</span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-3 text-center text-gray-600">{team.gespeeld}</td>
+                        <td className="py-3 px-3 text-center text-green-700 font-semibold">{wins}</td>
+                        <td className="py-3 px-3 text-center text-red-600 font-semibold">{losses}</td>
+                        <td className={`py-3 px-3 text-center font-black ${isOwn ? "text-[#D31F30]" : "text-[#0D2566]"}`}>{team.punten}</td>
+                        <td className="py-3 px-3 text-center text-gray-500 text-xs hidden sm:table-cell">{team.saldo > 0 ? `+${team.saldo}` : team.saldo}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <div className="md:col-span-2 relative min-h-[200px]">
-              <Image src="/spelers/team.JPG" alt="Team" fill className="object-cover" />
-            </div>
-          </div>
-          <h3 className="text-sm font-black text-[#0D2566] uppercase tracking-widest mb-5">Selectie</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {PLAYERS.map((p, i) => (
-              <div key={p.naam} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
-                <div className="relative h-56">
-                  <Image
-                    src={`/spelers/player${(i % 7) + 1}.png`}
-                    alt={p.naam}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2 left-2 bg-[#0D2566] text-white text-xs font-black w-7 h-7 rounded-full flex items-center justify-center shadow">
-                    {p.nummer}
-                  </div>
-                </div>
-                <div className="p-3 border-t border-gray-100">
-                  <div className="font-bold text-xs text-gray-900 leading-tight">{p.naam}</div>
-                  <div className="text-[#D31F30] text-[10px] font-bold uppercase tracking-wider mt-0.5">{p.positie}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+          ) : (
+            <p className="text-gray-400 text-sm">Ranglijst niet beschikbaar.</p>
+          )}
         </div>
       </section>
 
@@ -493,7 +493,7 @@ export default async function Home2() {
             </div>
           </div>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-[#a0b4d0]">
-            {[["#ranglijst","Ranglijst"],["#uitslagen","Uitslagen"],["#team","Team"],["#staf","Staf"],["#training","Training"],["#speelschema","Schema"],["#sponsoren","Sponsors"]].map(([h, l]) => (
+            {[["#team","Team"],["#uitslagen","Uitslagen"],["#ranglijst","Ranglijst"],["#staf","Staf"],["#training","Training"],["#speelschema","Schema"],["#sponsoren","Sponsors"]].map(([h, l]) => (
               <a key={h} href={h} className="hover:text-white transition-colors">{l}</a>
             ))}
           </div>
